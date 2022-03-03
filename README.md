@@ -21,6 +21,8 @@ Further information is given in the paper.
 
 All files necessary to make the code work for the GISS-E model are also included.
 
+**optimization_plot.m** replicates the figure in Section 5 of the paper
+
 
 
 
