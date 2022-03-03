@@ -16,3 +16,5 @@ Finally, it computes the matrix "M" for the model, which relates injections at e
 The code also contains a function to calculate annual means.
 
 Further information is given in the paper.
+
+All files necessary to make the code work for the GISS-E model are also included.
