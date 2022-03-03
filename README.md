@@ -3,7 +3,9 @@ This repository accompanies the upcoming papers to be submitted to ACP regarding
 in different climate models.
 References will be added when the paper is available for discussion.
 
-The file control_gains_calculator.m calculates is given in input zonal mean values for stratospheric AOD and surface temperature 
+Contents:
+
+**control_gains_calculator.m** calculates is given in input zonal mean values for stratospheric AOD and surface temperature 
 for a control simulation (no SO2 injection) and 4 simulations considering an injection of SO2 in the stratosphere at four different latitudes (30N, 15N, 15S and 30S.
 
 It then maps the changes in T and AOD on the three Legendere polynomials (T0, T1 and T2 for T and L0, L1 and L2 for AOD). 
@@ -18,3 +20,7 @@ The code also contains a function to calculate annual means.
 Further information is given in the paper.
 
 All files necessary to make the code work for the GISS-E model are also included.
+
+
+
+
