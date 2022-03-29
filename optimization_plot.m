@@ -1,5 +1,7 @@
 clear all
 dir_new = '/Volumes/D_Visioni2/CESM2_MA/sys_ID/';
+dir_ma = '/Volumes/D_Visioni2/CESM2_MA/ssp245ma/';
+sspnam = '_b.e21.BWSSP245.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001_zm_monthly.nc';
 
 vol2 = '/Volumes/D_Visioni2/GeoMIP/ssp245/CESM2-WACCM/';
 vol3 = '/Volumes/D_Visioni2/GeoMIP/ssp245/UKESM1-0-LL/';
@@ -26,8 +28,8 @@ foldG = '/Volumes/D_Visioni2/GISS/';
 locG = {'c4bk','c7bk','c6bk','c1bk'};
 
 for i=1:length(loc)
-    AOD_G{i} = ncread([foldG 'GISS_4Tg_' loc{i} '_zm.nc'],'AOD550nm');
-    T_G{i} = ncread([foldG 'GISS_4Tg_' loc{i} '_zm.nc'],'surfT');
+    AOD_G{i} = ncread([foldG 'GISS_corr_' loc{i} '_zm.nc'],'AOD550nm');
+    T_G{i} = ncread([foldG 'GISS_corr_' loc{i} '_zm.nc'],'surfT');
 end
 
 AOD_base_G = ncread([foldG 'GISS_ssp245_zm.nc'],'AOD550nm'); nb = 15*12+1;
@@ -46,8 +48,8 @@ foldGm = '/Volumes/D_Visioni2/GISSmodal/';
 locG = {'c4bk','c7bk','c6bk','c1bk'};
 
 for i=1:length(loc)
-    AOD_Gm{i} = ncread([foldGm 'GISS_modal_4Tg_' loc{i} '_zm.nc'],'AOD550nm');
-    T_Gm{i} = ncread([foldGm 'GISS_modal_4Tg_' loc{i} '_zm.nc'],'surfT');
+    AOD_Gm{i} = ncread([foldGm 'GISS_modal_corr_' loc{i} '_zm.nc'],'AOD550nm');
+    T_Gm{i} = ncread([foldGm 'GISS_modal_corr_' loc{i} '_zm.nc'],'surfT');
 end
 
 AOD_base_Gm = ncread([foldGm 'GISS_modal_ssp245_zm.nc'],'AOD550nm'); nb = 20*12+1;
@@ -173,37 +175,37 @@ L1N = L0+sind(latG);
 L1S = L0-sind(latG);
 L2 = L0+(1.5*L1.^2-.5);
 
-psi=double([GISS{2},GISS{4}]/4);
+psi=double([GISS{2},GISS{4}]/12);
 [q,fiterr0{1,3}]=lsqlin((sqrt(awt)*ones(1,2)).*psi,sqrt(awt).*L0,-eye(2),zeros(2,1));
 inj0(3,1) = q(1); inj0(3,2) = q(2);
 
-psi=double([GISS{1},GISS{2}]/4);
+psi=double([GISS{1},GISS{2}]/12);
 [q,fiterr0{2,3}]=lsqlin((sqrt(awt)*ones(1,2)).*psi,sqrt(awt).*L1N,-eye(2),zeros(2,1));
 inj1N(3,1) = q(1); inj1N(3,2) = q(2);
 
-psi=double([GISS{4},GISS{5}]/4);
+psi=double([GISS{4},GISS{5}]/12);
 [q,fiterr0{3,3}]=lsqlin((sqrt(awt)*ones(1,2)).*psi,sqrt(awt).*L1S,-eye(2),zeros(2,1));
 inj1S(3,1) = q(1); inj1S(3,2) = q(2);
 
-psi=double([GISS{1},GISS{5}]/4);
+psi=double([GISS{1},GISS{5}]/12);
 [q,fiterr0{4,3}]=lsqlin((sqrt(awt)*ones(1,2)).*psi,sqrt(awt).*L2,-eye(2),zeros(2,1));
 inj2(3,1) = q(1); inj2(3,2) = q(2);
 
 %% repeats for GISS modal
 
-psi=double([GISSm{2},GISSm{4}]/4);
+psi=double([GISSm{2},GISSm{4}]/12);
 [q,fiterr0{1,4}]=lsqlin((sqrt(awt)*ones(1,2)).*psi,sqrt(awt).*L0,-eye(2),zeros(2,1));
 inj0(4,1) = q(1); inj0(4,2) = q(2);
 
-psi=double([GISSm{1},GISSm{2}]/4);
+psi=double([GISSm{1},GISSm{2}]/12);
 [q,fiterr0{2,4}]=lsqlin((sqrt(awt)*ones(1,2)).*psi,sqrt(awt).*L1N,-eye(2),zeros(2,1));
 inj1N(4,1) = q(1); inj1N(4,2) = q(2);
 
-psi=double([GISSm{4},GISSm{5}]/4);
+psi=double([GISSm{4},GISSm{5}]/12);
 [q,fiterr0{3,4}]=lsqlin((sqrt(awt)*ones(1,2)).*psi,sqrt(awt).*L1S,-eye(2),zeros(2,1));
 inj1S(4,1) = q(1); inj1S(4,2) = q(2);
 
-psi=double([GISSm{1},GISSm{5}]/4);
+psi=double([GISSm{1},GISSm{5}]/12);
 [q,fiterr0{4,4}]=lsqlin((sqrt(awt)*ones(1,2)).*psi,sqrt(awt).*L2,-eye(2),zeros(2,1));
 inj2(4,1) = q(1); inj2(4,2) = q(2);
 
@@ -215,23 +217,23 @@ mods = {'CESM','UKESM','GISS','GISSm'};
 %% getting the AOD pattern resulting from the optimization
 
 opt_0_CESM = (CESM{2}*inj0(1,1)+CESM{4}*inj0(1,2))/12;
-opt_0_GISS = (GISS{2}*inj0(3,1)+GISS{4}*inj0(3,2))/4;
-opt_0_GISSm = (GISSm{2}*inj0(4,1)+GISSm{4}*inj0(4,2))/4;
+opt_0_GISS = (GISS{2}*inj0(3,1)+GISS{4}*inj0(3,2))/12;
+opt_0_GISSm = (GISSm{2}*inj0(4,1)+GISSm{4}*inj0(4,2))/12;
 opt_0_UKESM = (UKESM{2}*inj0(2,1)+UKESM{4}*inj0(2,2))/12;
 
 opt_1N_CESM = (CESM{1}*inj1N(1,1)+CESM{2}*inj1N(1,2))/12;
-opt_1N_GISS = (GISS{1}*inj1N(3,1)+GISS{2}*inj1N(3,2))/4;
-opt_1N_GISSm = (GISSm{1}*inj1N(4,1)+GISSm{2}*inj1N(4,2))/4;
+opt_1N_GISS = (GISS{1}*inj1N(3,1)+GISS{2}*inj1N(3,2))/12;
+opt_1N_GISSm = (GISSm{1}*inj1N(4,1)+GISSm{2}*inj1N(4,2))/12;
 opt_1N_UKESM = (UKESM{1}*inj1N(2,1)+UKESM{2}*inj1N(2,2))/12;
 
 opt_1S_CESM = (CESM{4}*inj1S(1,1)+CESM{5}*inj1S(1,2))/12;
-opt_1S_GISS = (GISS{4}*inj1S(3,1)+GISS{5}*inj1S(3,2))/4;
-opt_1S_GISSm = (GISSm{4}*inj1S(4,1)+GISSm{5}*inj1S(4,2))/4;
+opt_1S_GISS = (GISS{4}*inj1S(3,1)+GISS{5}*inj1S(3,2))/12;
+opt_1S_GISSm = (GISSm{4}*inj1S(4,1)+GISSm{5}*inj1S(4,2))/12;
 opt_1S_UKESM = (UKESM{4}*inj1S(2,1)+UKESM{5}*inj1S(2,2))/12;
 
 opt_2_CESM = (CESM{1}*inj2(1,1)+CESM{5}*inj2(1,2))/12;
-opt_2_GISS = (GISS{1}*inj2(3,1)+GISS{5}*inj2(3,2))/4;
-opt_2_GISSm = (GISSm{1}*inj2(4,1)+GISSm{5}*inj2(4,2))/4;
+opt_2_GISS = (GISS{1}*inj2(3,1)+GISS{5}*inj2(3,2))/12;
+opt_2_GISSm = (GISSm{1}*inj2(4,1)+GISSm{5}*inj2(4,2))/12;
 opt_2_UKESM = (UKESM{1}*inj2(2,1)+UKESM{5}*inj2(2,2))/12;
 
 L0 = ones(length(lat),1);
