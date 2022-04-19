@@ -19,7 +19,8 @@ The code also contains a function to calculate annual means.
 
 Further information is given in the paper.
 
-All files necessary to make the code work for the GISS-E model are also included.
+All files necessary to make the code work for all models are also included. 
+Each model output is in the related zip file [model_name]_zm.zip . 
 
 **optimization_plot.m** replicates the figure in Section 5 of the paper
 
