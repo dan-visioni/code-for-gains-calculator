@@ -1,7 +1,5 @@
 # code-for-gains-calculator
-This repository accompanies the upcoming papers to be submitted to ACP regarding the intercomparison between different stratospheric SO₂ injection latitudes 
-in different climate models.
-References will be added when the paper is available for discussion.
+This repository accompanies the paper https://acp.copernicus.org/articles/23/663/2023/ "Climate response to off-equatorial stratospheric sulfur injections in three Earth system models – Part 1: Experimental protocols and surface changes" regarding the intercomparison between different stratospheric SO₂ injection latitudes in different climate models.
 
 Contents:
 
